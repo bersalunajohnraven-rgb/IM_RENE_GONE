@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  },
+  "scripts": {
+  "start": "node server.js",
+  "dev": "node server.js",
+  "postinstall": "prisma skills sync || exit 0"
+}
+}
