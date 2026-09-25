@@ -1,5 +1,6 @@
 -- 004_create_suppliers.sql
 CREATE TABLE suppliers (
-    supplier_id     SERIAL PRIMARY KEY,
-    contact_info    VARCHAR NOT NULL
+    "supplierID"    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name            VARCHAR NOT NULL,
+    contact_info    VARCHAR
 );

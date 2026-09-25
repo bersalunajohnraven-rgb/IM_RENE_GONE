@@ -4,11 +4,12 @@
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "prisma": "^6.19.3"
+    "prisma": "^6.19.3",
+    "supabase": "^2.118.0"
   },
   "scripts": {
-  "start": "node server.js",
-  "dev": "node server.js",
-  "postinstall": "prisma skills sync || exit 0"
-}
+    "start": "node server.js",
+    "dev": "node server.js",
+    "postinstall": "prisma skills sync || exit 0"
+  }
 }

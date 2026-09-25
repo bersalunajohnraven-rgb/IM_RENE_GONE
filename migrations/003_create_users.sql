@@ -1,13 +1,15 @@
 -- 003_create_users.sql
 CREATE TABLE users (
-    user_id         SERIAL PRIMARY KEY,
-    full_name       VARCHAR NOT NULL,
+    "userID"        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "firstName"     VARCHAR NOT NULL,
+    "middleName"    VARCHAR,
+    "lastName"      VARCHAR NOT NULL,
     email           VARCHAR NOT NULL UNIQUE,
     password_hash   TEXT NOT NULL,
-    role_id         INT NOT NULL REFERENCES roles(role_id),
-    branch_id       INT NULL REFERENCES branch(branch_id), -- nullable: admins aren't tied to a branch
+    "roleID"        UUID NOT NULL REFERENCES roles("roleID"),
+    "branchID"      UUID REFERENCES branch("branchID"),
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_users_role_id ON users(role_id);
-CREATE INDEX idx_users_branch_id ON users(branch_id);
+CREATE INDEX idx_users_roleID ON users("roleID");
+CREATE INDEX idx_users_branchID ON users("branchID");

@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+
 model branch {
   branchID         String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String             @db.VarChar
@@ -22,7 +22,6 @@ model branch {
   users            users[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model deliveries {
   deliveryID      String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   orderID         String          @db.Uuid
@@ -32,16 +31,13 @@ model deliveries {
   branch          branch          @relation(fields: [branchID], references: [branchID], onUpdate: NoAction)
   purchase_orders purchase_orders @relation(fields: [orderID], references: [orderID], onUpdate: NoAction)
   users           users?          @relation(fields: [received_by], references: [userID], onUpdate: NoAction)
-  delivery_item   delivery_item[]
+  delivery_items   delivery_items []
 
   @@index([branchID])
   @@index([orderID])
   @@index([received_by])
 }
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model delivery_item {
+model delivery_items {
   delivery_itemID   String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   deliveryID        String     @db.Uuid
   productID         String     @db.Uuid
@@ -53,8 +49,6 @@ model delivery_item {
   @@index([productID])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model inventory {
   inventoryID       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   productID         String   @db.Uuid
@@ -70,7 +64,6 @@ model inventory {
   @@index([productID])
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model products {
   productID            String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sku                  String                 @unique @db.VarChar
@@ -78,7 +71,7 @@ model products {
   unit_cost            Decimal                @db.Decimal
   unit_price           Decimal                @db.Decimal
   created_at           DateTime               @default(now()) @db.Timestamptz(6)
-  delivery_item        delivery_item[]
+  delivery_items        delivery_items[]
   inventory            inventory[]
   purchase_order_items purchase_order_items[]
   restock_requests     restock_requests[]
@@ -86,8 +79,7 @@ model products {
   stock_movements      stock_movements[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+
 model purchase_order_items {
   purchase_itemID  String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   orderID          String          @db.Uuid
@@ -101,8 +93,7 @@ model purchase_order_items {
   @@index([productID])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+
 model purchase_orders {
   orderID              String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   supplierID           String                 @db.Uuid
@@ -124,8 +115,6 @@ model purchase_orders {
   @@index([supplierID])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model restock_requests {
   requestID       String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   productID       String            @db.Uuid
@@ -145,16 +134,13 @@ model restock_requests {
   @@index([productID])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model roles {
   roleID    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   role_name String  @unique @db.VarChar
   users     users[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+
 model sale_items {
   itemID     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   saleID     String   @db.Uuid
@@ -168,7 +154,6 @@ model sale_items {
   @@index([saleID])
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model sales {
   saleID       String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   cashierID    String       @db.Uuid
@@ -183,8 +168,7 @@ model sales {
   @@index([cashierID])
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+
 model stock_movements {
   movementID   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   productID    String   @db.Uuid
@@ -203,7 +187,6 @@ model stock_movements {
   @@index([productID])
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model suppliers {
   supplierID      String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String            @db.VarChar
@@ -211,10 +194,11 @@ model suppliers {
   purchase_orders purchase_orders[]
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model users {
   userID           String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  fullName         String             @db.VarChar
+  firstName         String            @db.VarChar
+  middleName         String?           @db.VarChar
+  lastName         String             @db.VarChar
   email            String             @unique @db.VarChar
   password_hash    String
   roleID           String             @db.Uuid

@@ -1,9 +1,10 @@
 -- 011_create_delivery_item.sql
-CREATE TABLE delivery_item (
-    delivery_item_id   SERIAL PRIMARY KEY,
-    delivery_id         INT NOT NULL REFERENCES deliveries(delivery_id),
-    product_id           INT NOT NULL REFERENCES products(product_id),
-    quantity_received   INT NOT NULL CHECK (quantity_received > 0)
+CREATE TABLE delivery_items (
+    "delivery_itemID"   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "deliveryID"        UUID NOT NULL REFERENCES deliveries("deliveryID") ON DELETE CASCADE,
+    "productID"         UUID NOT NULL REFERENCES products("productID"),
+    quantity_received   INT NOT NULL
 );
 
-CREATE INDEX idx_delivery_item_delivery_id ON delivery_item(delivery_id);
+CREATE INDEX idx_delivery_items_deliveryID ON delivery_items("deliveryID");
+CREATE INDEX idx_delivery_items_productID ON delivery_items("productID");

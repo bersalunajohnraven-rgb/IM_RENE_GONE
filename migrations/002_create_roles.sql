@@ -1,6 +1,5 @@
 -- 002_create_roles.sql
 CREATE TABLE roles (
-    role_id     SERIAL PRIMARY KEY,
+    "roleID"    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     role_name   VARCHAR NOT NULL UNIQUE
-                CHECK (role_name IN ('admin', 'branch_manager', 'cashier'))
 );
