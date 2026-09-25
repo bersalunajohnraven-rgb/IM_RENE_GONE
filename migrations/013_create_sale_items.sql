@@ -1,10 +1,11 @@
 -- 013_create_sale_items.sql
 CREATE TABLE sale_items (
-    item_id     SERIAL PRIMARY KEY,
-    sale_id     INT NOT NULL REFERENCES sales(sale_id),
-    product_id  INT NOT NULL REFERENCES products(product_id),
-    quantity    INT NOT NULL CHECK (quantity > 0),
-    unit_price  NUMERIC NOT NULL CHECK (unit_price >= 0)
+    "itemID"        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "saleID"        UUID NOT NULL REFERENCES sales("saleID") ON DELETE CASCADE,
+    "productID"     UUID NOT NULL REFERENCES products("productID"),
+    quantity        INT NOT NULL,
+    unit_price      NUMERIC NOT NULL
 );
 
-CREATE INDEX idx_sale_items_sale_id ON sale_items(sale_id);
+CREATE INDEX idx_sale_items_saleID ON sale_items("saleID");
+CREATE INDEX idx_sale_items_productID ON sale_items("productID");

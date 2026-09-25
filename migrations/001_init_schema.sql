@@ -3,7 +3,7 @@ create extension if not exists pgcrypto;
 -- 1. ROLES
 create table roles (
   "roleID"   uuid primary key default gen_random_uuid(),
-  role_name  varchar not null unique check (role_name in ('admin', 'branch_manager', 'cashier'))
+  role_name  varchar not null unique
 );
  
 -- 2. BRANCH
@@ -24,7 +24,9 @@ create table suppliers (
 -- 4. USERS (depends on roles, branch)
 create table users (
   "userID"       uuid primary key default gen_random_uuid(),
-  "fullName"     varchar not null,
+  "firstName"    varchar not null,
+  "middleName"   varchar,
+  "lastName"     varchar not null,
   email          varchar not null unique,
   password_hash  text not null,
   "roleID"       uuid not null references roles("roleID") on delete restrict,
