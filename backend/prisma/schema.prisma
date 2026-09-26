@@ -37,6 +37,7 @@ model deliveries {
   @@index([orderID])
   @@index([received_by])
 }
+
 model delivery_items {
   delivery_itemID   String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   deliveryID        String     @db.Uuid
